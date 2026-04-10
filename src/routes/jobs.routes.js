@@ -11,6 +11,7 @@ router.put("/:id",async (req, res)=>{
     const jobId=req.params.id;
     const userId=req.user.id;
     const {company, role, status, notes}= req.body;
+    status=status.toLowerCase();
 
     try{
         const result= await pool.query(
@@ -54,11 +55,21 @@ router.delete("/:id", async(req, res)=>{
 
 router.get("/", async(req,res)=>{
     const userId=req.user.id;
+    const {status}=req.query;
+    status=status? status.toLowerCase():status;
+
+    let query="select * from jobs where user_id=$1";
+    let values=[userId];
+
+    if(status){
+        query+=" and status=$2";
+        values.push(status);
+    }
 
     try{
         const result= await pool.query(
-            "select * from jobs where user_id=$1",[userId]
-        )
+            query,values
+        );
         res.json(result.rows)
     }catch(err)
     {

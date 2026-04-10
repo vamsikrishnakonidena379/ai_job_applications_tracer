@@ -2,6 +2,7 @@ const pool=require("../config/db");
 
 exports.createJob= async(req, res)=>{
     const {company, role, status, notes}=req.body;
+      status=status.toLowerCase();
 
 
      try{
