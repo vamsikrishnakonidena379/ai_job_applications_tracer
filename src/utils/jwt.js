@@ -1,5 +1,5 @@
 const jwt= require("jsonwebtoken");
 
 exports.signToken= (payload)=>{
-    jwt.sign(payload, process.env.JWT_SECRET,{expiresIn: "1d"})
+   return jwt.sign(payload, process.env.JWT_SECRET,{expiresIn: "1d"})
 }
