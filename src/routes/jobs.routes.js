@@ -56,14 +56,14 @@ router.delete("/:id", async(req, res)=>{
 router.get("/", async(req,res)=>{
     const userId=req.user.id;
     const {status}=req.query;
-    status=status? status.toLowerCase():status;
+    const normalizedStatus=status? status.toLowerCase():status;
 
     let query="select * from jobs where user_id=$1";
     let values=[userId];
 
     if(status){
         query+=" and status=$2";
-        values.push(status);
+        values.push(normalizedStatus);
     }
 
     try{
